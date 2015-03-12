@@ -17,12 +17,14 @@ public class CalEvent {
 		String input;
 		String summary = "SUMMARY:";
 		String location = "LOCATION:";
+		String date = "";
+		//String sTime = "DTSTART;";	// Date time start; 20150508T180000
+		//String eTime = "DTEND;";	// Date time end; end comes before the start in the file
 		//String priority = "PRIORITY:";
 		//String class = "CLASS:";	// public, private, confidential
 		//int intPriority;			// 1-4 high, 5 meduim, 6-9 low
-		//sTime;	// Date time start; 20150508T180000
-		//eTime;	// Date time end; end comes before the start in the file
-		//timeZone;		// Time Zone
+		//String timeZone = "";		// Time Zone
+		//String end = "END:VEVENT";
 
 		ver = ver.concat(verNum + "\n");
 		//ver = ver.concat(newLine);
@@ -35,9 +37,14 @@ public class CalEvent {
 		summary = summary.concat(input + "\n");
 
 		// Get the location of the event
-		System.out.print("Location of the event: ");
+		System.out.print("Location: ");
 		input = scan.nextLine();
 		location = location.concat(input + "\n");
+
+		// Get the date of the event
+		System.out.print("From Date: ");
+		input = scan.nextLine();
+		date = date.concat(input + "\n");
 
 		// This is where the file and text are created
 		try {
@@ -54,6 +61,7 @@ public class CalEvent {
 			output.write(summary);
 			output.write(location);
 			output.close();
+
 		}
 		catch(Exception e) {
 			e.printStackTrace();
