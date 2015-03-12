@@ -39,9 +39,6 @@ public class CalEvent {
 		input = scan.nextLine();
 		location = location.concat(input + "\n");
 
-		// Convert double to string
-		String strVerNum = Double.toString(verNum);
-
 		// This is where the file and text are created
 		try {
 			// Create a new file
@@ -57,7 +54,6 @@ public class CalEvent {
 			output.write(summary);
 			output.write(location);
 			output.close();
-
 		}
 		catch(Exception e) {
 			e.printStackTrace();
