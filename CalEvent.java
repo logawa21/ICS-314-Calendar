@@ -32,8 +32,8 @@ public class kiwiCal {
 			
 			// *****INSERT a while loop to always prompt for more events *****
 			
-			dtstart = "20150311T119000Z\n";
-			dtend = "20150312T120000Z\n";
+			dtstart = "20150311T119000\n";
+			dtend = "20150312T120000\n";
 			location = "Sinclair\n";
 			summary = "work on project\n";
 			
