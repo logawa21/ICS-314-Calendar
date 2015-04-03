@@ -97,7 +97,6 @@ public class FreeTimeCalEvent {
 
 			// For now assuming we are only adding an event on one day
 			dtend = dtstart;
-			String t0 = "T000000";
 			dtfreetime = dtfreetime.concat(t0);
 		}
 
