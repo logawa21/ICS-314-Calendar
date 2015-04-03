@@ -2,7 +2,7 @@ import java.io.*;;
 import java.util.*;
 import java.text.*;
 
-public class CalEvent {
+public class FreeTimeCalEvent {
 	public static void main(String[] args) {
 		final String userFormat = "MM/dd/yyyy";
 		final String calFormat = "yyyy/MM/dd";
