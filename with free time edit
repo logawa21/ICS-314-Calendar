@@ -2,23 +2,99 @@ import java.io.*;;
 import java.util.*;
 import java.text.*;
 
-public class CalEvent {
-	public static void main(String[] args) {
-		final String userFormat = "MM/dd/yyyy";
-		final String calFormat = "yyyy/MM/dd";
+public class FreeTimeCalEvent {
 
-		File file = null;
-		
-		String ver = "VERSION:", pvt = "PRIVATE", pub = "PUBLIC", con = "CONFIDENTIAL";
-		double verNum = 2.0;
-		String tz = "", timez = "", dtstart = "", dtend = "", upper = "";
-		String location = "", summary = "", input = "", cl = "", priority = "";
-		String newStartDateStr  = "", newEndDateStr = "";
-		String[] splitTime, splitDate;
-		String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
-		int intETime, intSTime, intSHTime, intSMTime, intEHTime, intEMTime, intPriority;
+	final String userFormat = "MM/dd/yyyy";
+	final String calFormat = "yyyy/MM/dd";
 
+	String ver = "VERSION:", pvt = "PRIVATE", pub = "PUBLIC", con = "CONFIDENTIAL";
+	double verNum = 2.0;
+	String tz = "", timez = "", dtstart = "", dtend = "", upper = "";
+	String location = "", summary = "", input = "", cl = "", priority = "";
+	String newStartDateStr  = "", newEndDateStr = "";
+	String[] splitTime, splitDate;
+	String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
+	int intETime, intSTime, intSHTime, intSMTime, intEHTime, intEMTime, intPriority;
+	String dtfreetime = "";
+	String t0 = "T000000";
+	
+	File file = null;
+	
+	// Version
+	public String getVer(){
 		ver = ver.concat(verNum + "\n");
+		return ver;
+	}
+
+	public void setVer(String ver){
+		this.ver = ver;
+	}
+
+	// Class
+	public String getCl(){
+		return cl;
+	}
+
+	public void setCl(String cl){
+		this.cl = cl;
+	}
+
+	// Location
+	public String getLocation(){
+		return location;
+	}
+
+	public void setLocation(String location){
+		this.location = location;
+	}
+
+	// Priority
+	public String getPriority(){
+		return priority;
+	}
+
+	public void setPriority(String priority){
+		this.priority = priority;
+	}
+
+	// Summary
+	public String getSummary(){
+		return summary;
+	}
+
+	public void setSummary(String summary){
+		this.summary = summary;
+	}
+
+	// Dtstart
+	public String getDtStart(){
+		return dtstart;
+	}
+
+	public void setDtStart(String dtstart){
+		this.dtstart = dtstart;
+	}
+
+	// Dtend
+	public String getDtEnd(){
+		return dtend;
+	}
+
+	public void setDtEnd(String dtend){
+		this.dtend = dtend;
+	}
+
+	// Time Zone
+	public String getTimeZone(){
+		return tz;
+	}
+
+	public void setTimeZone(String tz){
+		this.tz = tz;
+	}
+
+	public static void main(String[] args) {
+
 		// Get user input
 		Scanner scan = new Scanner(System.in);
 
@@ -95,10 +171,7 @@ public class CalEvent {
 
 			// For now assuming we are only adding an event on one day
 			dtend = dtstart;
-         String dtfreetime = "";
-         dtfreetime = dtend;
-         String t0 = "T000000";
-         dtfreetime = dtfreetime.concat(t0);
+			dtfreetime = dtfreetime.concat(t0);
 		}
 
 		// Get the time of the event
@@ -288,25 +361,15 @@ public class CalEvent {
 		if(intPriority >= 6 && intPriority <= 9)
 			priority = priority.concat("LOW" + "\n");
 
-		
-      
-      
-      String classificationFree = "FREE TIME";
-      String priorityFree = "UNDEFINED";
-      String classFree = "PUBLIC";
-      String summaryFree = "FREE TIME";
-      String locationFree = "FREE TIME";
-      String dtEndFree = dtstart;
-      String dtStartAgain = dtend;
-      
-      
-      
-      
-      
-      
-      
-      
-      // This is where the file and text are created
+		String classificationFree = "FREE TIME";
+		String priorityFree = "UNDEFINED";
+		String classFree = "PUBLIC";
+		String summaryFree = "FREE TIME";
+		String locationFree = "FREE TIME";
+		String dtEndFree = dtstart;
+		String dtStartAgain = dtend;
+
+		// This is where the file and text are created
 		try {
 			// Create a new file
 			file = new File("ics314.ics");
