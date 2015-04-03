@@ -1,76 +1,50 @@
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
-
-public class junitcal {
-
-
-	//test for regular event listed
+public class CalEventTest {
+	private CalEvent cal;
 	
-	
-	//checks that version is 2.0
-	public void testSimpleVer() throw Exception{
-		assertTrue(ver == "2.0");
+	//Runs before all of the @Test methods
+	@Before
+	public void setUp() throws Exception {
+		cal = new CalEvent();
 	}
 	
-	//
-	public void testSimpleCl() throw Exception{
-		assertTrue((cl == "PUBLIC" || "PRIVATE" || "CONFIDENTIAL") 
-				&& cl != null);
+	//Checks that version is 2.0
+	@Test
+	public void testVer() throws Exception{
+		assertEquals("2.0", cal.getVer());
 	}
 	
-	public void testSimpleSummary() throw Exception{
-		assertTrue(summary != NULL);
+	//Checks classification
+	@Test
+	public void testCl() throws Exception{
+		assertEquals(cal.getCl());
+	}//
+	
+	//Checks summary
+	@Test
+	public void testSummary() throws Exception{
+		assertNotNull(cal.getSummary());
 	}
 	
-	public void testSimplePriority() throw Exception{
-		assertTrue(priority == "UNDEFINED" || "LOW" || "MEDIUM"
-				|| "HIGH") && (priority != NULL));
+	//Checks priority
+	@Test
+	public void testPriority() throws Exception{
+		assertNotNull(cal.getPriority());
 	}
 	
-	public void testSimpleDtStart() throw Exception{
-		assertTrue(dtstart != NULL);
+	//Checks DTSTART
+	@Test
+	public void testDtStart() throws Exception{
+		assertNotNull(cal.getDtStart());
 	}
 	
-	public void testSimpleDtEnd() throw Exception{
-		assertTrue(dtend != NULL);
+	//Checks DTEND
+	@Test
+	public void testDtEnd() throws Exception{
+		assertNotNull(cal.getDtEnd());
 	}
-	
-	// test for free time
-	
-
-	public void testSimpleVerFree() throw Exception{
-		assertTrue(ver == "2.0");
-	}
-	
-	public void testSimpleClFree() throw Exception{
-		assertTrue(classificationFree == "public");
-	}
-	
-	public void testSimpleSummaryFree() throw Exception{
-		assertTrue(summaryFree != NULL);
-	}
-	
-	public void testSimplePriorityFree() throw Exception{
-		assertTrue(priorityFree == "UNDEFINED" );
-	}
-	
-	
-	// check to make sure that this dtstartfree and dtendfree 
-	// has the same varible name
-	
-	public void testSimpleDtStartFree() throw Exception{
-		assertTrue(dtstartFree != NULL );
-	}
-	
-	
-	//checks if not null and if it is equal to the dtstart 
-	// of an event
-	public void testSimpleDtEndFree() throw Exception{
-		assertTrue((dtendFree != NULL) && (dtendFree == dtstart));
-	}
-	
 }
-
-
