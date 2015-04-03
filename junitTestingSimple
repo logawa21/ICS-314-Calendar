@@ -1,0 +1,76 @@
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+
+public class junitcal {
+
+
+	//test for regular event listed
+	
+	
+	//checks that version is 2.0
+	public void testSimpleVer() throw Exception{
+		assertTrue(ver == "2.0");
+	}
+	
+	//
+	public void testSimpleCl() throw Exception{
+		assertTrue((cl == "public" || "private" || "confidental") 
+				&& cl != null);
+	}
+	
+	public void testSimpleSummary() throw Exception{
+		assertTrue(summary != NULL);
+	}
+	
+	public void testSimplePriority() throw Exception{
+		assertTrue(priority == "UNDEFINED" || "LOW" || "MEDIUM"
+				|| "HIGH") && (priority != NULL));
+	}
+	
+	public void testSimpleDtStart() throw Exception{
+		assertTrue(dtstart != NULL);
+	}
+	
+	public void testSimpleDtEnd() throw Exception{
+		assertTrue(dtend != NULL);
+	}
+	
+	// test for free time
+	
+
+	public void testSimpleVerFree() throw Exception{
+		assertTrue(ver == "2.0");
+	}
+	
+	public void testSimpleClFree() throw Exception{
+		assertTrue(classificationFree == "public");
+	}
+	
+	public void testSimpleSummaryFree() throw Exception{
+		assertTrue(summaryFree != NULL);
+	}
+	
+	public void testSimplePriorityFree() throw Exception{
+		assertTrue(priorityFree == "UNDEFINED" );
+	}
+	
+	
+	// check to make sure that this dtstartfree and dtendfree 
+	// has the same varible name
+	
+	public void testSimpleDtStartFree() throw Exception{
+		assertTrue(dtstartFree != NULL );
+	}
+	
+	
+	//checks if not null and if it is equal to the dtstart 
+	// of an event
+	public void testSimpleDtEndFree() throw Exception{
+		assertTrue((dtendFree != NULL) && (dtendFree == dtstart));
+	}
+	
+}
+
+
