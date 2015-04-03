@@ -24,6 +24,12 @@ public class CalEventTest {
 		assertEquals(cal.getCl());
 	}//
 	
+	//Checks location
+	@Test
+	public void testLocation() throws Exception{
+		assertEquals(cal.getLocation());
+	}
+	
 	//Checks summary
 	@Test
 	public void testSummary() throws Exception{
@@ -46,5 +52,11 @@ public class CalEventTest {
 	@Test
 	public void testDtEnd() throws Exception{
 		assertNotNull(cal.getDtEnd());
+	}
+	
+	//Checks Time Zone
+	@Test
+	public void testTimeZone() throws Exception{
+		assertNotNull(cal.getTimeZone());
 	}
 }
