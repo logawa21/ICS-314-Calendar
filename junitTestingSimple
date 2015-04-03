@@ -16,7 +16,7 @@ public class junitcal {
 	
 	//
 	public void testSimpleCl() throw Exception{
-		assertTrue((cl == "public" || "private" || "confidental") 
+		assertTrue((cl == "PUBLIC" || "PRIVATE" || "CONFIDENTIAL") 
 				&& cl != null);
 	}
 	
