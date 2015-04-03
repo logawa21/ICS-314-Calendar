@@ -17,6 +17,8 @@ public class CalEvent {
 		String[] splitTime, splitDate;
 		String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
 		int intETime, intSTime, intSHTime, intSMTime, intEHTime, intEMTime, intPriority;
+		String dtfreetime = "";
+		String t0 = "T000000";
 
 		ver = ver.concat(verNum + "\n");
 		// Get user input
@@ -95,10 +97,8 @@ public class CalEvent {
 
 			// For now assuming we are only adding an event on one day
 			dtend = dtstart;
-         String dtfreetime = "";
-         dtfreetime = dtend;
-         String t0 = "T000000";
-         dtfreetime = dtfreetime.concat(t0);
+			String t0 = "T000000";
+			dtfreetime = dtfreetime.concat(t0);
 		}
 
 		// Get the time of the event
