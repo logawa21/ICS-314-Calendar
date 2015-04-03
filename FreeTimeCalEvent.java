@@ -288,25 +288,15 @@ public class FreeTimeCalEvent {
 		if(intPriority >= 6 && intPriority <= 9)
 			priority = priority.concat("LOW" + "\n");
 
-		
-      
-      
-      String classificationFree = "FREE TIME";
-      String priorityFree = "UNDEFINED";
-      String classFree = "PUBLIC";
-      String summaryFree = "FREE TIME";
-      String locationFree = "FREE TIME";
-      String dtEndFree = dtstart;
-      String dtStartAgain = dtend;
-      
-      
-      
-      
-      
-      
-      
-      
-      // This is where the file and text are created
+		String classificationFree = "FREE TIME";
+		String priorityFree = "UNDEFINED";
+		String classFree = "PUBLIC";
+		String summaryFree = "FREE TIME";
+		String locationFree = "FREE TIME";
+		String dtEndFree = dtstart;
+		String dtStartAgain = dtend;
+	
+		// This is where the file and text are created
 		try {
 			// Create a new file
 			file = new File("ics314.ics");
