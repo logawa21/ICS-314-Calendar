@@ -1,38 +1,137 @@
-import java.io.*;;
+import java.io.*;
 import java.util.*;
 import java.text.*;
 
 public class FreeTimeCalEvent {
+
+	final String userFormat = "MM/dd/yyyy";
+	final String calFormat = "yyyy/MM/dd";
+
+	String ver = "VERSION:", pvt = "PRIVATE", pub = "PUBLIC", con = "CONFIDENTIAL";
+	double verNum = 2.0;
+	String tz = "", timez = "", dtstart = "", dtend = "", upper = "";
+	String location = "", summary = "", input = "", cl = "", priority = "";
+	String newStartDateStr  = "", newEndDateStr = "";
+	String[] splitTime, splitDate;
+	String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
+	int intETime, intSTime, intSHTime, intSMTime, intEHTime, intEMTime, intPriority;
+	String dtfreetime = "";
+	String t0 = "T000000";
+	
+	File file = null;
+	
+	// Version
+	public double getVer(){
+		return verNum;
+	}
+
+	public void setVer(double verNum){
+		this.verNum = verNum;
+	}
+
+	// Class
+	public String getCl(){
+		return cl;
+	}
+
+	public void setCl(String cl){
+		this.cl = cl;
+	}
+
+	// Location
+	public String getLocation(){
+		return location;
+	}
+
+	public void setLocation(String location){
+		this.location = location;
+	}
+
+	// Priority
+	public String getPriority(){
+		return priority;
+	}
+
+	public void setPriority(String priority){
+		this.priority = priority;
+	}
+
+	// Summary
+	public String getSummary(){
+		return summary;
+	}
+
+	public void setSummary(String summary){
+		this.summary = summary;
+	}
+
+	// Dtstart
+	public String getDtStart(){
+		return dtstart;
+	}
+
+	public void setDtStart(String dtstart){
+		this.dtstart = dtstart;
+	}
+
+	// Dtend
+	public String getDtEnd(){
+		return dtend;
+	}
+
+	public void setDtEnd(String dtend){
+		this.dtend = dtend;
+	}
+
+	// Time Zone
+	public String getTimeZone(){
+		return tz;
+	}
+
+	public void setTimeZone(String tz){
+		this.tz = tz;
+	}
+
 	public static void main(String[] args) {
+
 		final String userFormat = "MM/dd/yyyy";
 		final String calFormat = "yyyy/MM/dd";
 
-		File file = null;
-		
 		String ver = "VERSION:", pvt = "PRIVATE", pub = "PUBLIC", con = "CONFIDENTIAL";
 		double verNum = 2.0;
+		@SuppressWarnings("unused")
 		String tz = "", timez = "", dtstart = "", dtend = "", upper = "";
 		String location = "", summary = "", input = "", cl = "", priority = "";
 		String newStartDateStr  = "", newEndDateStr = "";
 		String[] splitTime, splitDate;
 		String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
-		int intETime, intSTime, intSHTime, intSMTime, intEHTime, intEMTime, intPriority;
+		int intETime, intSTime, intSHTime, intEHTime, intPriority;
 		String dtfreetime = "";
 		String t0 = "T000000";
+	
+		File file = null;
 
+		FreeTimeCalEvent free = new FreeTimeCalEvent();
+		
+		// Set the version number
+		free.setVer(verNum);
 		ver = ver.concat(verNum + "\n");
+
 		// Get user input
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 
 		// Get the name of the event
 		System.out.print("Name of the event: ");
 		input = scan.nextLine();
 		summary = summary.concat(input + "\n");
+		free.setSummary(summary);
 
 		// Get the location of the event
 		System.out.print("Location: ");
 		input = scan.nextLine();
 		location = location.concat(input + "\n");
+		free.setLocation(location);
 
 		// Get the date of the event
 		System.out.print("Date (MM/DD/YYYY or MM/DD/YYYY to MM/DD/YYYY): ");
@@ -71,10 +170,12 @@ public class FreeTimeCalEvent {
 			// Delete the "/" in the start date
 			sDate = newStartDateStr.replaceAll("/", "");
 			dtstart = dtstart.concat(sDate);
+			free.setDtStart(dtstart);
 
 			// Delete the "/" in the end date
 			eDate = newEndDateStr.replaceAll("/", "");
 			dtend = dtend.concat(eDate);
+			free.setDtEnd(dtend);
 		}
 		else {
 			// If the event is only one day
@@ -94,6 +195,7 @@ public class FreeTimeCalEvent {
 			// Delete the "/"
 			input = newStartDateStr.replaceAll("/", "");
 			dtstart = dtstart.concat(input);
+			free.setDtStart(dtstart);
 
 			// For now assuming we are only adding an event on one day
 			dtend = dtstart;
@@ -126,6 +228,7 @@ public class FreeTimeCalEvent {
 				intSHTime = intSHTime + 12;
 				// Add it to dtstart
 				dtstart = dtstart.concat("T" + intSHTime + sMTime + "00\n");
+				free.setDtStart(dtstart);
 			}
 			else {
 				// Change it into an int to convert it
@@ -133,6 +236,7 @@ public class FreeTimeCalEvent {
 				intSTime = intSTime + 12;
 				// Add it to dtstart
 				dtstart = dtstart.concat("T" + sTime + "00\n");
+				free.setDtStart(dtstart);
 			}
 		}
 		else if (sTime.contains("am")) {
@@ -147,11 +251,13 @@ public class FreeTimeCalEvent {
 
 				// Add it to dtstart
 				dtstart = dtstart.concat("T" + sHTime + sMTime + "00\n");
+				free.setDtStart(dtstart);
 			}
 			else {
 				intSTime = Integer.parseInt(sTime);
 				intSTime = intSTime + 12;
 				dtstart = dtstart.concat("T" + intSTime + "00\n");
+				free.setDtStart(dtstart);
 			}
 		}
 		else if (sTime.contains(":")){
@@ -164,15 +270,18 @@ public class FreeTimeCalEvent {
 			intSHTime = intSHTime + 12;
 			// Add it to dtstart
 			dtstart = dtstart.concat("T" + intSHTime + sMTime + "00\n");
+			free.setDtStart(dtstart);
 		}
 		else {
 			intSHTime = Integer.parseInt(sTime);
 			if (intSHTime <= 9) {
 				sTime = "0" + sTime;
 				dtstart = dtstart.concat("T" + sTime + "0000\n");
+				free.setDtStart(dtstart);
 			}
 			else {
 				dtstart = dtstart.concat("T" + sTime + "0000\n");
+				free.setDtStart(dtstart);
 			}
 		}
 
@@ -193,6 +302,7 @@ public class FreeTimeCalEvent {
 
 				// Add it to dtend
 				dtend = dtend.concat("T" + intEHTime + eMTime + "00\n");
+				free.setDtEnd(dtend);
 			}
 			else {
 				// Change it into an int to convert it
@@ -201,6 +311,7 @@ public class FreeTimeCalEvent {
 
 				// Add it to dtend
 				dtend = dtend.concat("T" + intETime + "0000\n");
+				free.setDtEnd(dtend);
 			}
 		}
 		else if (eTime.contains("am")) {
@@ -218,11 +329,13 @@ public class FreeTimeCalEvent {
 				intEHTime = intEHTime + 12;
 				// Add it to dtstart
 				dtend = dtend.concat("T" + intEHTime + eMTime + "00\n");
+				free.setDtEnd(dtend);
 			}
 			else {
 				intETime = Integer.parseInt(eTime);
 				intETime = intETime + 12;
 				dtend = dtend.concat("T" + eTime + "0000\n");
+				free.setDtEnd(dtend);
 			}
 		}
 		else if (eTime.contains(":")){
@@ -235,15 +348,18 @@ public class FreeTimeCalEvent {
 			intEHTime = intEHTime + 12;
 			// Add it to dtstart
 			dtend = dtend.concat("T" + intEHTime + eMTime + "00\n");
+			free.setDtEnd(dtend);
 		}
 		else {
 			intEHTime = Integer.parseInt(eTime);
 			if (intEHTime <= 9) {
 				eTime = "0" + eTime;
 				dtend = dtend.concat("T" + eTime + "0000\n");
+				free.setDtEnd(dtend);
 			}
 			else {
 				dtend = dtend.concat("T" + eTime + "0000\n");
+				free.setDtEnd(dtend);
 			}
 		}
 
@@ -253,39 +369,52 @@ public class FreeTimeCalEvent {
 		timez = input;
 		if(input.contains("HST")) {
 			tz = tz.concat("TZID=Pacific/Honolulu");
+			free.setTimeZone(tz);
 		}
 		else {
 			// Force it to be PST
 			tz = tz.concat("TZID=Pacific/Honolulu");
+			free.setTimeZone(tz);
 		}
 
 		// Get the classification of the event
-		System.out.print("Classification (public, private, or confidential: ");
+		System.out.print("Classification (public, private, or confidential): ");
 		input = scan.nextLine();
 
 		upper = input.toUpperCase();
 		// Write the classification depending on what they wrote
 		if(upper == pvt) {
 			cl = cl.concat(pvt + "\n");
+			free.setCl(cl);
 		}
 		else if(input == con) {
 			cl = cl.concat(con + "\n");
+			free.setCl(cl);
 		}
 		else {
 			cl = cl.concat(pub + "\n");
+			free.setCl(cl);
 		}
 
 		// Get the priority of the event
 		System.out.print("Priority of the event (0-9): ");
 		intPriority = scan.nextInt();
-		if(intPriority == 0)
+		if(intPriority == 0) {
 			priority = priority.concat("UNDEFINED" + "\n");
-		if(intPriority >= 1 && intPriority <= 4)
+			free.setPriority(priority);
+		}
+		if(intPriority >= 1 && intPriority <= 4) {
 			priority = priority.concat("HIGH" + "\n");
-		if(intPriority == 5)
+			free.setPriority(priority);
+		}
+		if(intPriority == 5) {
 			priority = priority.concat("MEDIUM" + "\n");
-		if(intPriority >= 6 && intPriority <= 9)
+			free.setPriority(priority);
+		}
+		if(intPriority >= 6 && intPriority <= 9) {
 			priority = priority.concat("LOW" + "\n");
+			free.setPriority(priority);
+		}
 
 		String classificationFree = "FREE TIME";
 		String priorityFree = "UNDEFINED";
@@ -294,7 +423,7 @@ public class FreeTimeCalEvent {
 		String locationFree = "FREE TIME";
 		String dtEndFree = dtstart;
 		String dtStartAgain = dtend;
-	
+
 		// This is where the file and text are created
 		try {
 			// Create a new file
