@@ -142,17 +142,30 @@ public class CalEvent1 {
 		}*/
 
 
-		// Delete event from the array if it has the same start and end time
-		for(int x = 0; x < countS; x++) {
-			for(int y = 0; y < countS; y++) {
-				if(newStartTime[x].equals(newEndTime[y])){
-					System.out.println("Delete it!");
-				}
-				else{
-					System.out.println("Do nothing!");
-				}
+		// Check for duplicate start and end time
+		/*int count1 = 0;
+		int count2 = 0;
+		for(int i = 0; i < countS; i++) {
+			if(i != k) {
+				startTime[count1] = Integer.toString(newStartTime[i]);
+				count1++;
+			}
+			else{
+				i++;
+				countS--;
+				//startTime[count1] = Integer.toString(newStartTime[i]);
 			}
 		}
+
+		for(int i = 0; i < countS; i++) {
+			if(i != l) {
+				endTime[i] = Integer.toString(newEndTime[i]);
+			}
+			else{
+				i++;
+				endTime[i] = Integer.toString(newEndTime[i]);
+			}
+		}*/
 
 		try {
 			// Create a new file
