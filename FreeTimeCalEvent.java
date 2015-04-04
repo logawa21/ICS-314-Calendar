@@ -192,7 +192,7 @@ public class FreeTimeCalEvent {
 			//System.out.println(newEndTime[i]);
 		}*/
 
-		// "Delete" event from the array if it has the same start and end time
+		/*// "Delete" event from the array if it has the same start and end time
 		skipStart = new int[countS];
 		skipEnd = new int[countS];
 		int k = 0;
@@ -211,7 +211,7 @@ public class FreeTimeCalEvent {
 					//System.out.println("Delete it!");
 				}
 			}
-		}
+		}*/
 
 		// Sort the array of times
 		Arrays.sort(newStartTime);
