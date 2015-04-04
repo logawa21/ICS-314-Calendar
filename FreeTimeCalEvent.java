@@ -3,20 +3,11 @@ import java.util.*;
 import java.text.*;
 
 public class FreeTimeCalEvent {
-
-	final String userFormat = "MM/dd/yyyy";
-	final String calFormat = "yyyy/MM/dd";
-
-	String ver = "VERSION:", pvt = "PRIVATE", pub = "PUBLIC", con = "CONFIDENTIAL";
+	
 	double verNum = 2.0;
-	String tz = "", timez = "", dtstart = "", dtend = "", upper = "";
-	String location = "", summary = "", input = "", cl = "", priority = "";
-	String newStartDateStr  = "", newEndDateStr = "";
-	String[] splitTime, splitDate;
-	String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
-	int intETime, intSTime, intSHTime, intSMTime, intEHTime, intEMTime, intPriority;
-	String dtfreetime = "";
-	String t0 = "T000000";
+	String tz = "", dtstart = "", dtend = "";
+	String location = "", summary = "", cl = "", priority = "";
+
 	
 	File file = null;
 	
