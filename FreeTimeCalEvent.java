@@ -132,45 +132,40 @@ public class FreeTimeCalEvent {
 			file1 = new File(args[i]);
 
 			// Get contents of the first file
-			//try{
-				Scanner scan = new Scanner(file1);
-		
-				// Find the DTSTART and DTEND so that we can use it to compare
-				while(scan.hasNextLine()) {
-					line = scan.nextLine();
-					lineNum++;
+			Scanner scan = new Scanner(file1);
+	
+			// Find the DTSTART and DTEND so that we can use it to compare
+			while(scan.hasNextLine()) {
+				line = scan.nextLine();
+				lineNum++;
 
-					// New End Time
-					if(line.contains("DTSTART;TZID=")) {
-						//Copy one start date and replace the time
-						newEndTime[countE+1] = Integer.parseInt("240000");
+				// New End Time
+				if(line.contains("DTSTART;TZID=")) {
+					//Copy one start date and replace the time
+					newEndTime[countE+1] = Integer.parseInt("240000");
 
-						// Get the end time zone so you can compare
-						eTimeZone = line.substring(8,line.length()-6);
+					// Get the end time zone so you can compare
+					eTimeZone = line.substring(8,line.length()-6);
 					
-						// Replace STSTART to DTEND
-						newEndTime[countE] = Integer.parseInt(line.substring(39,line.length()));
-						//System.out.println("New: " + countE + " "+ newEndTime[countE]);
-						countE++;
-					}
-					// New Start Time
-					if(line.contains("DTEND;TZID=")) {
-						//Copy one end date and replace the time
-						newStartTime[0] = Integer.parseInt("000000");
-
-						// Get the start time zone so you can compare
-						sTimeZone = line.substring(6,line.length()-6);
-						
-						// Replace STSTART to DTEND
-						newStartTime[countS] = Integer.parseInt(line.substring(37,line.length()));
-						//System.out.println("New: " + countS + " "+ newStartTime[countS]);
-						countS++;
-					}
+					// Replace STSTART to DTEND
+					newEndTime[countE] = Integer.parseInt(line.substring(39,line.length()));
+					//System.out.println("New: " + countE + " "+ newEndTime[countE]);
+					countE++;
 				}
-			//}
-			//catch(FileNotFoundException ex) {
-			//	ex.printStackTrace();
-			//}
+				// New Start Time
+				if(line.contains("DTEND;TZID=")) {
+					//Copy one end date and replace the time
+					newStartTime[0] = Integer.parseInt("000000");
+
+					// Get the start time zone so you can compare
+					sTimeZone = line.substring(6,line.length()-6);
+	
+					// Replace STSTART to DTEND
+					newStartTime[countS] = Integer.parseInt(line.substring(37,line.length()));
+					//System.out.println("New: " + countS + " "+ newStartTime[countS]);
+					countS++;
+				}
+			}
 		}
 
 		// Check to see what the time zones are
