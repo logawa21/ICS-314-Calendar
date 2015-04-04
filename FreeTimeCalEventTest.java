@@ -13,11 +13,13 @@ public class FreeTimeCalEventTest {
 	}
 	
 	//Checks that version is 2.0
+	@Test
 	public void testVer() throws Exception{
 		assertEquals(2.0, cal.getVer());
 	}
 	
 	//Checks classification
+	@Test
 	public void testCl() throws Exception{
 		assertNotNull(cal.getCl());
 	}
