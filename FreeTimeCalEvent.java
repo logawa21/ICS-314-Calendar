@@ -1,424 +1,162 @@
 import java.io.*;
 import java.util.*;
 import java.text.*;
+import java.lang.*;
 
-public class FreeTimeCalEvent {
-	
-	double verNum = 2.0;
-	String tz = "", dtstart = "", dtend = "";
-	String location = "", summary = "", cl = "", priority = "";
+public class CalEvent1 {
+	public static void main(String[] args) throws IOException {
 
-	
-	File file = null;
-	
-	// Version
-	public double getVer(){
-		return verNum;
-	}
-
-	public void setVer(double verNum){
-		this.verNum = verNum;
-	}
-
-	// Class
-	public String getCl(){
-		return cl;
-	}
-
-	public void setCl(String cl){
-		this.cl = cl;
-	}
-
-	// Location
-	public String getLocation(){
-		return location;
-	}
-
-	public void setLocation(String location){
-		this.location = location;
-	}
-
-	// Priority
-	public String getPriority(){
-		return priority;
-	}
-
-	public void setPriority(String priority){
-		this.priority = priority;
-	}
-
-	// Summary
-	public String getSummary(){
-		return summary;
-	}
-
-	public void setSummary(String summary){
-		this.summary = summary;
-	}
-
-	// Dtstart
-	public String getDtStart(){
-		return dtstart;
-	}
-
-	public void setDtStart(String dtstart){
-		this.dtstart = dtstart;
-	}
-
-	// Dtend
-	public String getDtEnd(){
-		return dtend;
-	}
-
-	public void setDtEnd(String dtend){
-		this.dtend = dtend;
-	}
-
-	// Time Zone
-	public String getTimeZone(){
-		return tz;
-	}
-
-	public void setTimeZone(String tz){
-		this.tz = tz;
-	}
-
-	public static void main(String[] args) {
-
-		final String userFormat = "MM/dd/yyyy";
-		final String calFormat = "yyyy/MM/dd";
-
-		String ver = "VERSION:", pvt = "PRIVATE", pub = "PUBLIC", con = "CONFIDENTIAL";
+		String ver = "VERSION:", pub = "PUBLIC";
 		double verNum = 2.0;
-		@SuppressWarnings("unused")
-		String tz = "", timez = "", dtstart = "", dtend = "", upper = "";
+		String tz = "", dtstart = "", dtend = "";
 		String location = "", summary = "", input = "", cl = "", priority = "";
-		String newStartDateStr  = "", newEndDateStr = "";
-		String[] splitTime, splitDate;
-		String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
-		int intETime, intSTime, intSHTime, intEHTime, intPriority;
-		String dtfreetime = "";
-		String t0 = "T000000";
-	
-		File file = null;
-
-		FreeTimeCalEvent free = new FreeTimeCalEvent();
 		
-		// Set the version number
-		free.setVer(verNum);
+		int lineNum = 0;
+		String line = "";
+		int arrayNum = 100;
+		int[] newEndTime = new int[arrayNum];
+		int[] newStartTime = new int[arrayNum];
+		String[] startTime;
+		String[] endTime;
+		int fileCount;
+		int countS = 1;
+		int countE = 0;
+		String firstnewStartTime = "000000";
+		String lastnewEndTime = "240000";
+		String sTimeZone = "";
+		String eTimeZone = "";
+
 		ver = ver.concat(verNum + "\n");
 
-		// Get user input
-		@SuppressWarnings("resource")
-		Scanner scan = new Scanner(System.in);
+		//File file1, file2;
+		File file1;
 
-		// Get the name of the event
-		System.out.print("Name of the event: ");
-		input = scan.nextLine();
-		summary = summary.concat(input + "\n");
-		free.setSummary(summary);
+		for(int i = 0; i < arrayNum; i++) {
+			newStartTime[i] = 250000;
+			newEndTime[i] = 250000;
+		}
 
-		// Get the location of the event
-		System.out.print("Location: ");
-		input = scan.nextLine();
-		location = location.concat(input + "\n");
-		free.setLocation(location);
+		// Get the number of files
+		fileCount = args.length;
+		//System.out.println("File count: " + fileCount);
 
-		// Get the date of the event
-		System.out.print("Date (MM/DD/YYYY or MM/DD/YYYY to MM/DD/YYYY): ");
-		input = scan.nextLine();
+		// Check that you have more than one file
+		if(fileCount <= 1) {
+			System.out.println("Error: You need more than one file.");
+		}
 
-		// If the event is overnight or over several days
-		if(input.contains(" to ")) {
-			splitDate = input.split(" to ");
-			sDate = splitDate[0];
-			eDate = splitDate[1];
+		for(int i = 0; i < fileCount; i++) {
+			file1 = new File(args[i]);
 
-			SimpleDateFormat sdfStart = new SimpleDateFormat(userFormat);
-			SimpleDateFormat sdfEnd = new SimpleDateFormat(userFormat);
+			// Get contents of the first file
+			Scanner scan = new Scanner(file1);
+		
+			// Find the DTSTART and DTEND so that we can use it to compare
+			while(scan.hasNextLine()) {
+				line = scan.nextLine();
+				lineNum++;
 
-			// Change the format of the date
-			try {
-				Date sd = new Date();
-				Date ed = new Date();
+				// New End Time
+				if(line.contains("DTSTART;TZID=")) {
+					//Copy one start date and replace the time
+					newEndTime[countE+1] = Integer.parseInt("240000");
 
-				// Change the start date format
-				sd = sdfStart.parse(sDate);
-				
-				// Changing the format
-				sdfStart.applyPattern(calFormat);
-				newStartDateStr = sdfStart.format(sd);
+					// Get the end time zone so you can compare
+					eTimeZone = line.substring(8,line.length()-6);
+					
+					// Replace STSTART to DTEND
+					newEndTime[countE] = Integer.parseInt(line.substring(39,line.length()));
+					//System.out.println("New: " + countE + " "+ newEndTime[countE]);
+					countE++;
+				}
+				// New Start Time
+				if(line.contains("DTEND;TZID=")) {
+					//Copy one end date and replace the time
+					newStartTime[0] = Integer.parseInt("000000");
 
-				// Fixed the format, but not showing up in iCal
-				// Change the end date format
-				ed = sdfEnd.parse(eDate);
-				sdfEnd.applyPattern(calFormat);
-				newEndDateStr = sdfEnd.format(ed);
+					// Get the start time zone so you can compare
+					sTimeZone = line.substring(6,line.length()-6);
+					
+					// Replace STSTART to DTEND
+					newStartTime[countS] = Integer.parseInt(line.substring(37,line.length()));
+					//System.out.println("New: " + countS + " "+ newStartTime[countS]);
+					countS++;
+				}
 			}
-			catch(ParseException pe) {
-				pe.printStackTrace();
-			}
-			// Delete the "/" in the start date
-			sDate = newStartDateStr.replaceAll("/", "");
-			dtstart = dtstart.concat(sDate);
-			free.setDtStart(dtstart);
+		}
 
-			// Delete the "/" in the end date
-			eDate = newEndDateStr.replaceAll("/", "");
-			dtend = dtend.concat(eDate);
-			free.setDtEnd(dtend);
+		// Check to see what the time zones are
+		//System.out.println(eTimeZone);
+		//System.out.println(sTimeZone);
+
+		// Compare the time zones
+		if(eTimeZone.equals(sTimeZone)) {
 		}
 		else {
-			// If the event is only one day
-			// Change the date format from MM/dd/yyyy to yyyy/MM/dd
-			SimpleDateFormat sdf = new SimpleDateFormat(userFormat);
-			try {
-				Date d = new Date();
-				d = sdf.parse(input);
-				// Changing the format
-				sdf.applyPattern(calFormat);
-				newStartDateStr = sdf.format(d);
-			}
-			catch(ParseException pe) {
-				pe.printStackTrace();
-			}
-
-			// Delete the "/"
-			input = newStartDateStr.replaceAll("/", "");
-			dtstart = dtstart.concat(input);
-			free.setDtStart(dtstart);
-
-			// For now assuming we are only adding an event on one day
-			dtend = dtstart;
-			dtfreetime = dtfreetime.concat(t0);
+			System.out.println("Error: Different time zones.");
 		}
 
-		// Get the time of the event
-		System.out.print("Time (6am-8pm): ");
-		input = scan.nextLine();
+		// Test to see what's in the array
+		/*for(int i = 0; i < countE; i++) {
+			//System.out.println(newStartTime[i]);
+			//System.out.println(newEndTime[i]);
+		}*/
 
-		// Split the times into start time and end time while getting rid of "-"
-		if(input.contains("-")) {
-			splitTime = input.split("-");
-			sTime = splitTime[0];
-			eTime = splitTime[1];
+		// Sort the array of times
+		Arrays.sort(newStartTime);
+		Arrays.sort(newEndTime);
+
+
+		startTime = new String[countS];
+		endTime = new String[countS];
+
+		// Copy int array into string array
+		for(int i = 0; i < countS; i++) {
+			startTime[i] = Integer.toString(newStartTime[i]);
+
+			endTime[i] = Integer.toString(newEndTime[i]);
 		}
-		// Convert the start time
-		if(sTime.contains("pm")) {
-			// Get rid of pm
-			sTime = sTime.replace("pm", "");
 
-			// Split the hours and minutes
-			if(sTime.contains(":")) {
-				splitTime = sTime.split(":");
-				sHTime = splitTime[0];
-				sMTime = splitTime[1];
-
-				// Change it into an int to convert it
-				intSHTime = Integer.parseInt(sHTime);
-				intSHTime = intSHTime + 12;
-				// Add it to dtstart
-				dtstart = dtstart.concat("T" + intSHTime + sMTime + "00\n");
-				free.setDtStart(dtstart);
+		// Check to make sure that the time is 6 digits long
+		for(int i = 0; i < countS; i++){
+			if(startTime[i].length() < 6) {
+				for(int a = 0; a < 5; a++) {
+					//System.out.println("Add: " + startTime[i]);
+					// Add zero to the front of the time if the amount of digits is less than 6
+					startTime[i] = startTime[i].substring(0,0) + "0" + startTime[i].substring(0);
+				}
 			}
-			else {
-				// Change it into an int to convert it
-				intSTime = Integer.parseInt(sTime);
-				intSTime = intSTime + 12;
-				// Add it to dtstart
-				dtstart = dtstart.concat("T" + sTime + "00\n");
-				free.setDtStart(dtstart);
-			}
-		}
-		else if (sTime.contains("am")) {
-			// Get rid of pm
-			sTime = sTime.replace("am", "");
-
-			// Split the hours and minutes
-			if(sTime.contains(":")) {
-				splitTime = sTime.split(":");
-				sHTime = splitTime[0];
-				sMTime = splitTime[1];
-
-				// Add it to dtstart
-				dtstart = dtstart.concat("T" + sHTime + sMTime + "00\n");
-				free.setDtStart(dtstart);
-			}
-			else {
-				intSTime = Integer.parseInt(sTime);
-				intSTime = intSTime + 12;
-				dtstart = dtstart.concat("T" + intSTime + "00\n");
-				free.setDtStart(dtstart);
+			if(endTime[i].length() < 6) {
+				for(int a = 0; endTime[i].length() < 6; a++) {
+					//System.out.println("Add: " + endTime[i]);
+					// Add zero to the front of the time if the amount of digits is less than 6
+					endTime[i] = endTime[i].substring(0,0) + "0" + endTime[i].substring(0);
+				}
 			}
 		}
-		else if (sTime.contains(":")){
-			splitTime = sTime.split(":");
-			sHTime = splitTime[0];
-			sMTime = splitTime[1];
+		
+		// Check that it is sorted
+		/*for(int i = 0; i < countS; i++) {
+			System.out.println("Sorted: " + endTime[i]);
+			System.out.println("Sorted: " + startTime[i]);
+		}*/
 
-			// Change it into an int to convert it
-			intSHTime = Integer.parseInt(sHTime);
-			intSHTime = intSHTime + 12;
-			// Add it to dtstart
-			dtstart = dtstart.concat("T" + intSHTime + sMTime + "00\n");
-			free.setDtStart(dtstart);
-		}
-		else {
-			intSHTime = Integer.parseInt(sTime);
-			if (intSHTime <= 9) {
-				sTime = "0" + sTime;
-				dtstart = dtstart.concat("T" + sTime + "0000\n");
-				free.setDtStart(dtstart);
-			}
-			else {
-				dtstart = dtstart.concat("T" + sTime + "0000\n");
-				free.setDtStart(dtstart);
+
+		// Delete event from the array if it has the same start and end time
+		for(int x = 0; x < countS; x++) {
+			for(int y = 0; y < countS; y++) {
+				if(newStartTime[x].equals(newEndTime[y])){
+					System.out.println("Delete it!");
+				}
+				else{
+					System.out.println("Do nothing!");
+				}
 			}
 		}
 
-		// Convert the end time
-		if(eTime.contains("pm")) {
-			// Get rid of pm
-			eTime = eTime.replace("pm", "");
-
-			// Split the hours and minutes
-			if(eTime.contains(":")) {
-				splitTime = eTime.split(":");
-				eHTime = splitTime[0];
-				eMTime = splitTime[1];
-
-				// Change it into an int to convert it
-				intEHTime = Integer.parseInt(eHTime);
-				intEHTime = intEHTime + 12;
-
-				// Add it to dtend
-				dtend = dtend.concat("T" + intEHTime + eMTime + "00\n");
-				free.setDtEnd(dtend);
-			}
-			else {
-				// Change it into an int to convert it
-				intETime = Integer.parseInt(eTime);
-				intETime = intETime + 12;
-
-				// Add it to dtend
-				dtend = dtend.concat("T" + intETime + "0000\n");
-				free.setDtEnd(dtend);
-			}
-		}
-		else if (eTime.contains("am")) {
-			// Get rid of pm
-			eTime = eTime.replace("am", "");
-
-			// Split the hours and minutes
-			if(eTime.contains(":")) {
-				splitTime = eTime.split(":");
-				eHTime = splitTime[0];
-				eMTime = splitTime[1];
-
-				// Change it into an int to convert it
-				intEHTime = Integer.parseInt(eHTime);
-				intEHTime = intEHTime + 12;
-				// Add it to dtstart
-				dtend = dtend.concat("T" + intEHTime + eMTime + "00\n");
-				free.setDtEnd(dtend);
-			}
-			else {
-				intETime = Integer.parseInt(eTime);
-				intETime = intETime + 12;
-				dtend = dtend.concat("T" + eTime + "0000\n");
-				free.setDtEnd(dtend);
-			}
-		}
-		else if (eTime.contains(":")){
-			splitTime = eTime.split(":");
-			eHTime = splitTime[0];
-			eMTime = splitTime[1];
-
-			// Change it into an int to convert it
-			intEHTime = Integer.parseInt(eHTime);
-			intEHTime = intEHTime + 12;
-			// Add it to dtstart
-			dtend = dtend.concat("T" + intEHTime + eMTime + "00\n");
-			free.setDtEnd(dtend);
-		}
-		else {
-			intEHTime = Integer.parseInt(eTime);
-			if (intEHTime <= 9) {
-				eTime = "0" + eTime;
-				dtend = dtend.concat("T" + eTime + "0000\n");
-				free.setDtEnd(dtend);
-			}
-			else {
-				dtend = dtend.concat("T" + eTime + "0000\n");
-				free.setDtEnd(dtend);
-			}
-		}
-
-		// Get the timezone of the event
-		System.out.print("Timezone (HST): ");
-		input = scan.nextLine();
-		timez = input;
-		if(input.contains("HST")) {
-			tz = tz.concat("TZID=Pacific/Honolulu");
-			free.setTimeZone(tz);
-		}
-		else {
-			// Force it to be PST
-			tz = tz.concat("TZID=Pacific/Honolulu");
-			free.setTimeZone(tz);
-		}
-
-		// Get the classification of the event
-		System.out.print("Classification (public, private, or confidential): ");
-		input = scan.nextLine();
-
-		upper = input.toUpperCase();
-		// Write the classification depending on what they wrote
-		if(upper == pvt) {
-			cl = cl.concat(pvt + "\n");
-			free.setCl(cl);
-		}
-		else if(input == con) {
-			cl = cl.concat(con + "\n");
-			free.setCl(cl);
-		}
-		else {
-			cl = cl.concat(pub + "\n");
-			free.setCl(cl);
-		}
-
-		// Get the priority of the event
-		System.out.print("Priority of the event (0-9): ");
-		intPriority = scan.nextInt();
-		if(intPriority == 0) {
-			priority = priority.concat("UNDEFINED" + "\n");
-			free.setPriority(priority);
-		}
-		if(intPriority >= 1 && intPriority <= 4) {
-			priority = priority.concat("HIGH" + "\n");
-			free.setPriority(priority);
-		}
-		if(intPriority == 5) {
-			priority = priority.concat("MEDIUM" + "\n");
-			free.setPriority(priority);
-		}
-		if(intPriority >= 6 && intPriority <= 9) {
-			priority = priority.concat("LOW" + "\n");
-			free.setPriority(priority);
-		}
-
-		String classificationFree = "FREE TIME";
-		String priorityFree = "UNDEFINED";
-		String classFree = "PUBLIC";
-		String summaryFree = "FREE TIME";
-		String locationFree = "FREE TIME";
-		String dtEndFree = dtstart;
-		String dtStartAgain = dtend;
-
-		// This is where the file and text are created
 		try {
 			// Create a new file
-			file = new File("ics314.ics");
+			File file = new File("Free Time.ics");
 
 			// Writing to the ics file
 			// FileWriter will append to the file
@@ -427,31 +165,16 @@ public class FreeTimeCalEvent {
 			// Writing to the file
 			output.write("BEGIN:VCALENDAR\n");
 			output.write(ver);
-
-			output.write("BEGIN:VEVENT\n");
-			output.write("DTSTART;" + tz + ":" + dtstart);
-			output.write("DTEND;" + tz + ":" + dtend);
-			output.write("LOCATION:" + location);
-			output.write("SUMMARY:" + summary);
-			output.write("CLASS:" + cl);
-			output.write("PRIORITY:" + priority);
-			output.write("END:VEVENT\n");
-         output.write("---------------------------------");
-         
-         //writing the free time to the file
-         
-         output.write(ver);
-
-			output.write("BEGIN:VEVENT\n");
-			output.write("DTSTART;" + tz + ":" + dtfreetime + "\n");
-			output.write("DTEND;" + tz + ":" + dtEndFree+ "\n");
-			output.write("LOCATION:" + locationFree+ "\n");
-			output.write("SUMMARY:" + summaryFree+ "\n");
-			output.write("CLASS:" + classificationFree+ "\n");
-			output.write("PRIORITY:" + priorityFree+ "\n");
-			output.write("END:VEVENT\n");
-         
-         output.write("---------------------------------");
+			for(int i = 0; i < (countE + 1); i++) {
+				output.write("BEGIN:VEVENT\n");
+				output.write("DTSTART;" + eTimeZone + startTime[i] + "\n");
+				output.write("DTEND;" + eTimeZone + endTime[i] + "\n");
+				output.write("LOCATION: Undecided\n");
+				output.write("SUMMARY: Free Time\n");
+				output.write("CLASS:" + pub + "\n");
+				output.write("PRIORITY:0\n");
+				output.write("END:VEVENT\n");
+			}
 
 			output.write("END:VCALENDAR");
 			output.close();
@@ -459,6 +182,6 @@ public class FreeTimeCalEvent {
 		}
 		catch(Exception e) {
 			e.printStackTrace();
-		}   
+		}
 	}
 }
