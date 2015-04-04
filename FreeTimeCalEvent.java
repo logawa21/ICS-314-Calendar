@@ -8,8 +8,6 @@ public class FreeTimeCalEvent {
 	double verNum = 2.0;
 	String tz = "", dtstart = "", dtend = "";
 	String location = "", summary = "", cl = "", priority = "";
-
-	//File file = null;
 	
 	// Version
 	public double getVer(){
