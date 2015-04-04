@@ -98,7 +98,7 @@ public class FreeTimeCalEvent {
 		String sTime = "", eTime = "", sHTime = "", sMTime = "", eHTime = "", eMTime = "", sDate = "", eDate = "";
 		int intETime, intSTime, intSHTime, intEHTime, intPriority;
 		String dtfreetime = "";
-		String t0 = "T000000";
+		String t0 = "T000100";
 	
 		File file = null;
 
@@ -190,6 +190,7 @@ public class FreeTimeCalEvent {
 
 			// For now assuming we are only adding an event on one day
 			dtend = dtstart;
+			dtfreetime = dtstart;
 			dtfreetime = dtfreetime.concat(t0);
 		}
 
