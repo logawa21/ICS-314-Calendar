@@ -14,6 +14,7 @@ public class FreeTimeCalEventTest {
 	
 	//Checks that version is 2.0
 	@Test
+	@SuppressWarnings("deprecation")
 	public void testVer() throws Exception{
 		assertEquals(2.0, cal.getVer());
 	}
