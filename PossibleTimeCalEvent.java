@@ -97,7 +97,7 @@ public class PossibleTimeCalEvent {
 		String[] endTime;
 		int fileCount;
 		int countS = 1;
-		int countE = 0;
+		int countE = 1;
 		String firstnewStartTime = "000000";
 		String lastnewEndTime = "240000";
 		String sTimeZone = "";
@@ -142,7 +142,7 @@ public class PossibleTimeCalEvent {
 				// New End Time
 				if(line.contains("DTSTART;TZID=")) {
 					//Copy one start date and replace the time
-					newEndTime[countE+1] = Integer.parseInt("240000");
+					newEndTime[countE] = Integer.parseInt("240000");
 
 					// Get the end time zone so you can compare
 					eTimeZone = line.substring(8,line.length()-6);
@@ -207,21 +207,21 @@ public class PossibleTimeCalEvent {
 					for(int n = delIndex; n < newEndTime.length -1; n++) {
 						newEndTime[n] = newEndTime[n+1];
 					}
-					
-					//startTime[j] = startTime[j+1];
 					//System.out.println(skipStart[k]);
 					//System.out.println(skipEnd[l]);
 					k++;
 					l++;
 					//System.out.println("Delete it!");
+					countS--;
 				}
 			}
 		}
 
 		// Test to see what's in the array
-		/*for(int i = 0; i < countE; i++) {
+		/*for(int i = 0; i < countS; i++) {
 			System.out.println(newStartTime[i]);
 			System.out.println(newEndTime[i]);
+			System.out.println(countS);
 		}*/
 
 		startTime = new String[countS];
@@ -268,7 +268,7 @@ public class PossibleTimeCalEvent {
 			// Writing to the file
 			output.write("BEGIN:VCALENDAR\n");
 			output.write(ver);
-			for(int i = 0; i < (countE); i++) {
+			for(int i = 0; i < (countS); i++) {
 				output.write("BEGIN:VEVENT\n");
 				output.write("DTSTART;" + eTimeZone + startTime[i] + "\n");
 				free.setTimeZone(eTimeZone);
