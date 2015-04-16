@@ -277,7 +277,7 @@ public class PossibleTimeCalEvent {
 				free.setDtEnd(endTime[i]);
 				output.write("LOCATION: Undecided\n");
 				free.setLocation(location);
-				output.write("SUMMARY: Free Time\n");
+				output.write("SUMMARY: Possible Meeting Time\n");
 				free.setSummary(summary);
 				output.write("CLASS:" + cl + "\n");
 				free.setCl(cl);
