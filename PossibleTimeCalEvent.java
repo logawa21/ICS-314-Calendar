@@ -115,8 +115,8 @@ public class PossibleTimeCalEvent {
 		File file1;
 
 		for(int i = 0; i < arrayNum; i++) {
-			newStartTime[i] = 250000;
-			newEndTime[i] = 250000;
+			newStartTime[i] = 240000;
+			newEndTime[i] = 240000;
 		}
 
 		// Get the number of files
